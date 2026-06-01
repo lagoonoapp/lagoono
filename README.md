@@ -1,4 +1,4 @@
-# Python Web App
+# Lagoono Painless Project Management
  
 ## Installation
 ### Python server
