@@ -1,0 +1,7 @@
+Notification from Lagoono https://lagoono.com
+
+{{data.text}}
+
+Best, Lagoono Automation System
+
+To cancel this automatic notifications, please sign in to the dashboard https://app.lagoono.com and change the settings for your account and project.

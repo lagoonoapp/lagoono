@@ -1,0 +1,9 @@
+Notification for Lagoono
+
+{{data.text}}
+
+Data:
+
+{{data.data}}
+
+Best, Your Lagoono Automation System

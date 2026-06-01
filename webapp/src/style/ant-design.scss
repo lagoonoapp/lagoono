@@ -1,0 +1,278 @@
+.ant-menu-dark .ant-menu-item-group-title {
+    /*color: rgba(247, 245, 245, 0.65);
+    background-color: #0c5ca5;*/
+    color: #ebd04a;
+    /*background-color: #164672;*/
+    /* padding: 2px; */
+    /* border-bottom: 2px solid orange; */
+    margin: 0px 5px;
+    font-weight: bolder;
+    border-radius: 3px;
+}
+.ant-layout-header.dashboard-header {
+	padding-inline: 25px;
+}
+.ant-menu .ant-menu-item-divider {
+    border-color: #542abf;
+    border-top-width: 1px;
+    margin-block: 0px;
+    margin: 0 10px;
+    border-bottom: 1px;
+}
+.ant-segmented .ant-segmented-item-icon+* {
+    margin-inline-start: 6px;
+}
+/*
+.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #6a46ad;
+}
+
+.ant-menu-dark .ant-menu-item:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected), 
+.ant-menu-dark .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected) {
+    color: #fff;
+    background-color: #6a46ad !important;
+}*/
+
+.ant-menu .ant-menu-item .ant-menu-item-icon, .ant-menu .ant-menu-submenu-title .ant-menu-item-icon {
+    margin-right: 6px;
+}
+.ant-modal .ant-modal-close {
+    top: 10px;
+    inset-inline-end: 10px;
+}
+.ant-input {
+    padding: 6px 11px;
+    line-height: 1.5;
+}
+/*.ant-btn {
+    padding: 6px 15px;
+}
+.ant-tag {
+    padding: 3px 6px;
+    padding-right: 20px;
+    background-color: #fff !important;
+    font-size: 13px;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    position: relative;
+}*/
+.ant-tag {
+    font-size: 12px;
+}
+.query-tag {
+    .ant-tag-close-icon {
+        font-size: 9px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+}
+/*.ant-btn {
+    padding: 5px 15px !important;
+}*/
+/*
+.ant-input-textarea-show-count::after {
+    color: rgba(0, 0, 0, 0.45);
+    white-space: nowrap;
+    content: attr(data-count);
+    pointer-events: none;
+    float: right;
+}
+
+[class^="ant-input"]::before, [class*=" ant-input"]::before, [class^="ant-input"]::after, 
+[class*=" ant-input"]::after {
+    box-sizing: border-box;
+}*/
+
+.ant-menu-title-content a {
+    color: #d6c7fb;
+}
+.ant-statistic .ant-statistic-title {
+	margin-bottom: 4px;
+    color: #000000de;
+    font-size: 14px;
+}
+.ant-drawer {
+    a {
+        color: #8051db;
+        text-decoration: underline;
+    }
+}
+.ant-drawer-body {
+    line-height: 2;
+}
+.ant-switch.ant-switch-checked.danger, .ant-switch.ant-switch-checked.danger:hover:not(.ant-switch-disabled) {
+    background-color: red;
+}
+.ant-switch.disable-enable {
+    background-color: #704ec7;
+}
+
+.ant-switch.danger:hover:not(.ant-switch-disabled) {
+    background: #bf3f3fb5;
+}
+.ant-tooltip-inner {
+    a {
+        color: #d8ccf7;
+    }
+    a:hover {
+        color: #c7b5f3;
+    }
+}
+.ant-tag {
+    font-size: 13px;
+}
+.ant-collapse-header-text {
+    span {
+        font-weight: bold;
+        color: #704ec7;
+    }
+}
+.ant-like-text-area {
+    font-family: 'Noto Sans';
+}
+.custom-radio {
+    .ant-radio-wrapper {
+        display: flex;
+        line-height: 1.8;
+    }
+}
+.table-small {
+    .ant-table-cell {
+        padding: 4px !important;
+        vertical-align: top;
+    }
+}
+.ant-alert-success {
+    background-color: #d7f9ed !important;
+}
+.datasource-title {
+    .anticon {
+        align-items: start;
+        margin-right: 5px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+.ant-upload-drag {
+    padding: 10px;
+}
+.ant-upload-list-item-name {
+    white-space: break-spaces !important;
+}
+.form-item-note {
+    font-size: 12px;
+    color: #654f91;
+}
+.ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-description {
+    color: #000000ba;
+    font-size: 13px;
+    line-height: 1.6153846153846154;
+}
+/* Cards */
+.ant-card-bordered {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-card .ant-card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    .text-preview {
+        flex-grow: 1;
+    }
+}
+.ant-popover-content.icons {
+    padding-top: 12px;
+}
+.icon-search .ant-input-group-addon {
+    cursor: pointer;
+    width: 32px;
+    padding: 0px;
+    .anticon {
+        width: 100%;
+        height: 30px;
+        display: block;
+        margin: 0px;
+        padding: 0px;
+        padding-top: 8px;
+    }
+}
+.rule-container {
+    .ant-input {
+        height: 32px;
+    }
+}
+.icon-menu-item {
+    display: flex;
+    gap: 5px;
+    .anticon {
+        color: #fff;
+    }
+}
+
+.ant-upload-wrapper .ant-upload-list .ant-upload-list-item .ant-upload-list-item-actions .anticon {
+    color: #fff !important;
+    transition: all 0.3s;
+    background: #000;
+    font-size: 18px;
+    border-radius: 50%;
+}
+.ant-upload-list-item-thumbnail {
+    border: none !important;
+}
+.chat-layout {
+    .ant-layout-footer {
+        padding: 12px 12px;
+    }
+}
+form.no-big-margin {
+    .ant-form-item {
+        margin-bottom: 4px !important;
+    }
+}
+
+.ant-select-dropdown .ant-select-item-group {
+    color: #000;
+    font-size: 14px;
+    cursor: default;
+    font-weight: bold;
+    border-top: 1px solid #f1f1f1;
+}
+.ant-float-btn-group.top-right, .ant-float-btn.top-right {
+    inset-block-start: 12px !important;
+    display: flex;
+    flex-direction: column-reverse;
+    top: 12px;
+    position: absolute;
+    flex-grow: 0;
+    flex: 0;
+    /* inset-block-end: 0px !important; */
+    inset-block-end: unset;
+    .ant-float-btn-primary {
+        margin-bottom: 14px;
+    }
+}
+.ant-timeline-item-last {
+    .ant-timeline-item-content {
+        min-height: 20px !important;
+    }
+    padding-bottom: 0px !important;
+}
+.ant-popover-inner {
+    padding: 18px !important;
+    border-radius: 5px;
+}
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-icon, .ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item-icon {
+    font-size: 15px;
+}
+.ant-list-item {
+    padding: 2px 0 !important;
+}
+.ant-table-cell {
+    padding: 2px 2px !important;
+}

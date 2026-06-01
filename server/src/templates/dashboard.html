@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{get_config_var('COMPANY_NAME')}} - Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="robots" content="noindex">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <script>
+            window.wsProtocol = '{{ws_protocol}}';
+            window.httpProtocol = '{{http_protocol}}';
+            window.hostName = '{{host_name}}';
+        </script>
+    </head>
+    <body class="dashboard">
+        {% include "/common/global_vars.html" %}
+        <div id="dashboard_root" class="dashboard-root-container"></div>
+        <script src="{{ url_for("static", filename="dist/dashboard.bundle.js")}}"></script>
+    </body>
+</html>

@@ -1,0 +1,6 @@
+Dear {{data.username}}
+
+{{data.text}}
+
+
+Sincerely, Lagoono

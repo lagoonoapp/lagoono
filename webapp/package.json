@@ -1,0 +1,60 @@
+{
+  "name": "lagoono-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve  --port 8088 --config webpack.dev.js",
+    "prod": "webpack --config webpack.prod.js",
+    "nohot": "webpack serve  --port 8088 --config webpack.nohot.js",
+    "test": "jest ./tests"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@ant-design/colors": "^8.0.1",
+    "@phosphor-icons/react": "^2.1.10",
+    "@phosphor-icons/web": "^2.1.2",
+    "@react-oauth/google": "^0.13.5",
+    "@tinymce/tinymce-react": "^6.3.0",
+    "antd": "^6.4.3",
+    "antd-img-crop": "^4.30.0",
+    "axios": "^1.16.1",
+    "dayjs": "^1.11.21",
+    "dompurify": "^3.4.7",
+    "markdown-to-jsx": "^9.8.1",
+    "nanoid": "^5.1.11",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-redux": "^9.3.0",
+    "react-router": "^7.16.0",
+    "react-router-dom": "^7.16.0",
+    "redux": "^5.0.1",
+    "sass": "^1.100.0",
+    "use-immer": "^0.11.0",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-react": "^7.29.7",
+    "babel-jest": "^30.4.1",
+    "babel-loader": "^10.1.1",
+    "babel-plugin-macros": "^3.1.0",
+    "css-loader": "^7.1.4",
+    "jest": "^30.4.2",
+    "react-error-overlay": "^6.1.0",
+    "sass-loader": "^17.0.0",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.107.2",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.4",
+    "webpack-merge": "^6.0.1"
+  },
+  "overrides": {
+    "@tinymce/tinymce-react": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  }
+}

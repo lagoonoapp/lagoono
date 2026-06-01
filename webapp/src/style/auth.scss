@@ -1,0 +1,85 @@
+body.auth {
+    /*background-color: #8164b5;*/
+    background-size: cover;
+    color: rgba(0, 0, 0, 0.88);
+}
+.auth-form-container {
+    background-color: #fff;
+    border-radius: 12px;
+    max-width: 400px;
+    padding: 30px;
+    margin: 0px auto 0px auto;
+    h4 {
+        color: #b8b0bd;
+    }
+    form {
+        /*padding: 10px;*/
+        color: #e3e3e3;
+        label {
+            color: #92799d;
+        }
+        input:-internal-autofill-selected {
+            background-color: -internal-light-dark(#e3dee6, rgba(70, 90, 126, 0.4)) !important;
+        }
+    }
+    a {
+        text-decoration: none;
+        color: #5b2bb4;
+    }
+    a:hover {
+        color: #7a4ec2;
+    }
+    .form-title {
+        font-size: 20px;
+        margin-bottom: 40px;
+        display: block;
+    }
+    .bottom-link {
+        font-size: 16px;
+    }
+    .explain {
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+}
+.connect-accordion {
+    /*background-color: whitesmoke;
+    padding: 10px;*/
+    border-radius: 5px;
+}
+.auth-box {
+    max-width: 450px;
+    form {
+        padding: 20px;
+        border-radius: 10px;
+    }
+}
+.auth-box-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    text-align: center;
+    margin: 0px auto 15px auto;
+    .title {
+        margin: 0px;
+        margin-right: 4px;
+        font-size: 17px;
+    }
+    img {
+        max-width: 100%;
+        max-height: 50px;
+        margin: 0px 0px 7px 7px;
+    }
+}
+
+/* Ant redefined styles */
+.ant-form-item-label {
+    padding: 0 0 2px !important;
+    label {
+        height: 25px !important;
+    }
+}
+.ant-form-item { 
+    margin-bottom: 18px;
+}

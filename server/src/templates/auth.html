@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="robots" content="noindex">
+        <title>{{get_config_var('COMPANY_NAME')}} - Login/register</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+        <script>
+            window.social_login_names = {{social_login_names|safe}};
+        </script>
+        {% for key in social_logins_data %}
+        {% if key == 'google' %}
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script>
+            window.googleClientId = '{{social_logins_data[key].get("client_id")}}';
+        </script>
+        {% endif %}
+        {% endfor %}
+    </head>
+    <body class="auth" style="background-image: url('/static/images/auth-back.jpg')">
+        {% include "/common/global_vars.html" %}
+        <div id="auth_root" class="auth-root-container">    
+        </div>
+        <script src="{{ url_for("static", filename="dist/auth.bundle.js")}}"></script>
+    </body>
+    <!-- 
+        Photo for the background by <a href="https://unsplash.com/@jrkorpa?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Jr Korpa</a> on <a href="https://unsplash.com/photos/pink-and-black-wallpaper-9XngoIpxcEo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+   -->
+</html>

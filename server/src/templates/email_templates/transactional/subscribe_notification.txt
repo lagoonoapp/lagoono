@@ -1,0 +1,8 @@
+Notification from Lagoono https://lagoono.com
+
+{{data.text}}
+
+Best, Lagoono Automation System
+
+You got received this email because you subscribed to be notified when a post is published. 
+To unsubscribe please login and change you settings in the dashboard: https://app.lagoono.com/dashboard/settings/notifications.
