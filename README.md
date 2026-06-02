@@ -1,5 +1,22 @@
 # Lagoono Painless Project Management
- 
+
+## License & Commercial Use
+
+This project is licensed under the **Server Side Public License (SSPL) v1** (see the corresponding LICENSE file for full details).
+
+### What you CAN do:
+* **Private Use:** You can download, modify, and run this project management tool for yourself.
+* **Internal Business Use:** Your company can host this internally to manage your own projects, employees, and operations for free.
+* **Customization:** You can modify the source code to fit your specific workflow needs.
+
+### What you CANNOT do:
+* **No Competing SaaS:** You cannot take this code, host it on a server, and sell it to third parties as a commercial project management service.
+* **No Managed Hosting:** You cannot offer a managed deployment service of this tool to other businesses for a fee.
+
+### Why this model?
+We love sharing our code with the community and want businesses to use it to grow. However, we must protect our own hosted SaaS business. If you want to use this codebase to offer a managed project management service to others, you must open-source your entire infrastructure under the SSPL, or contact us for a commercial license.
+
+
 ## Installation
 ### Python server
 
