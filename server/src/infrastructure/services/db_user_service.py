@@ -23,9 +23,11 @@ from server.src.infrastructure.db_models.board_comment import BoardComment
 from server.src.infrastructure.db_models.user import User
 from server.src.infrastructure.db_models.role import Role
 from server.src.infrastructure.db_models.account import Account
-
 from server.src.infrastructure.db_models.log_entry import LogEntry
 from server.src.infrastructure.db_models.log_event import LogEvent
+from server.src.infrastructure.db_models.item import Item
+from server.src.infrastructure.db_models.item_type import ItemType
+
 from server.src.infrastructure.services.logging import log_service, log_entry_type
 from server.src.infrastructure.services.logging.log_entry_type import LogEntryType
 from server.src.infrastructure.db_models.account_history import AccountHistory
@@ -281,3 +283,99 @@ def create_log_entry(log_event_code, type:LogEntryType, title, project_id, user_
     except Exception as ex:
         print_traceback(ex)
         return False
+
+################### User items ######################################################
+
+item_map = {
+    'item': {'item_class': Item, 'name': 'Item'},
+    'item_type': {'item_class': ItemType, 'name': 'Item type'}
+}
+
+############## TODO
+'''
+1. add pagination, filtering, sorting to get_user_items
+2. add roles and permissions to check if the user can access or modify this item
+'''
+########################
+
+def get_user_items(user_id, item_name):
+    # TODO: add pagination, filtering, sorting
+    item_object = item_map.get(item_name)
+    if item_object is None:
+        return Result(False, error=f'Invalid item name "{item_name}".')
+    ItemClassName = item_object['item_class']
+    query_data =  ItemClassName.query.filter_by(user_id = user_id).order_by(desc(ItemClassName.created)).all()
+    return Result(True, list=query_data)
+
+def get_user_item(user_id, item_name, item_id):
+    item_object = item_map.get(item_name)
+    if item_object is None:
+        return Result(False, error=f'Invalid item name "{item_name}".')
+    ItemClassName = item_object['item_class']
+    try:
+        item_object = ItemClassName.query.filter_by(id=item_id, user_id=user_id).first()
+        if item_object is None:
+            return Result(False, error='Item not found.')
+        item_object.before_fetch()
+        return Result(True, item=item_object)
+    except Exception as ex:
+        print_traceback(ex)
+        return Result(False, error='Could not retrieve the item.')
+
+def save_user_item(user_id, item_name, item_id, item_data):
+    if isinstance(user_id, str):
+        user_id = uuid.UUID(user_id).hex
+    if isinstance(item_id, str):
+        item_id = uuid.UUID(item_id).hex
+    item_object = item_map.get(item_name)
+    if item_object is None:
+        return Result(False, error=f'Invalid item name "{item_name}".')
+    ItemClassName = item_object['item_class']
+    try:
+        if item_id is not None:
+            # Update an existing item
+            item_object = ItemClassName.query.filter_by(id=item_id, user_id=user_id).first()
+            if item_object is None:
+                return Result(False, error=f'{item_object['name']} not found.')
+            item_object.before_update(item_data)
+            for key, value in item_data.items():
+                setattr(item_object, key, value)
+                
+                # Check if the field is JSONB and needs to be flagged as modified                
+                if isinstance(getattr(ItemClassName, key).type, JSONB):
+                    flag_modified(item_object, key)
+
+            item_object.updated = datetime.now(timezone.utc) # Always update
+        else:
+            item_object = ItemClassName(**item_data)
+            item_object.created = datetime.now(timezone.utc)
+            item_object.user_id = user_id # It's always who created it, doesn't automatically mean access or visibility.
+        item_object.before_save()
+        saved = item_object.save()
+        return Result(saved, item=item_object)
+    except Exception as ex:
+        print_traceback(ex)
+        return Result(False, error=f'Could not save the {item_object['name']}.')
+
+def delete_user_item(user_id, item_name, item_id):
+    # TODO: add roles and permissions to check if the user can delete this item
+    if isinstance(user_id, str):
+        user_id = uuid.UUID(user_id).hex
+    if isinstance(item_id, str):
+        item_id = uuid.UUID(item_id).hex
+    item_object = item_map.get(item_name)
+    if item_object is None:
+        return Result(False, error=f'Invalid item name "{item_name}".')
+    ItemClassName = item_object['item_class']
+    try:
+        item_instance = ItemClassName.query.filter_by(id=item_id, user_id=user_id).first()
+        if item_instance is None:
+            return Result(False, error='Item not found.')
+        delete_result = item_instance.delete()
+        return Result(delete_result)
+    except Exception as ex:
+        print_traceback(ex)
+        db.session.rollback()
+        return Result(False, error=f'Could not delete the {item_object['name']}.')
+
+###################### End of user items ############################################

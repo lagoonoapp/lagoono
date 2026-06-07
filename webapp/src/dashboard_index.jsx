@@ -16,7 +16,7 @@ const appRoute = (
     <ConfigProvider theme={{
         token: {
             fontFamily: 'Noto Sans', //'Nanum Gothic',
-            'fontSize': 13, 'colorError': '#a6121a', 'borderRadius': 2, 'colorPrimary': '#704ec7'},
+            'fontSize': 13, 'colorError': '#a6121a', 'borderRadius': 2, 'colorPrimary': '#4e7ec7'},
     }}>
         <Provider store={store}>
             <BrowserRouter>

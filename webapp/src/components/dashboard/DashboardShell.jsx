@@ -6,7 +6,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 import { ErrorHandler } from './ErrorHandler';
 
-import { HeartIcon, CircleNotchIcon  } from '@phosphor-icons/react';
+import { HeartIcon, CircleNotchIcon, RocketIcon, ShapesIcon  } from '@phosphor-icons/react';
 
 import { BellOutlined, CheckCircleOutlined, CloseCircleOutlined, CloseOutlined, ColumnHeightOutlined, CoffeeOutlined,
     InfoCircleOutlined, LoadingOutlined, LockOutlined, LogoutOutlined, 
@@ -26,6 +26,7 @@ const PostViewPage = lazy(() => import('@src/components/dashboard/feedback/PostV
 const Profile = lazy(() => import('@src/components/account/Profile'));
 const NotificationCenter = lazy(() => import('@src/components/account/NotificationCenter'));
 const StartPage = lazy(() => import('@src/components/dashboard/StartPage'));
+const TypeList = lazy(() => import('@src/components/dashboard/types/TypeList'));
 
 
 import { commonFunctions } from '@src/utils/commonFunctions';
@@ -33,8 +34,9 @@ import { Container } from '@src/components/ui/Container';
 //import Board from './feedback/Board';
 
 const userMenuItems = [
-    {key: 'userSettings', label: <Link to={`/dashboard/settings`}>Settings</Link>, icon: <SettingOutlined />, 
+    {key: 'settings', label: <Link to={`/dashboard/settings`}>Settings</Link>, icon: <SettingOutlined />, 
         children: [
+            {key: 'types', label: <Link to={`/dashboard/settings/types`}>Types</Link>, icon: <ShapesIcon />},
             {key: 'userprofile', label: <Link to={`/dashboard/settings/profile`}>User profile</Link>, icon: <UserOutlined />},
             {key: 'notifications', label: <Link to={`/dashboard/settings/notifications`}>Notification center</Link>, icon: <BellOutlined />},
 ]},
@@ -44,6 +46,12 @@ const userMenuItems = [
                     {key: 'feedback-my-drafts', label: <Link to={`/dashboard/feedback/drafts`}>My drafts</Link>}]},
     {key: 'logout', label: <a href="/auth/logout">Logout</a>, icon: <LogoutOutlined />}
 ];
+
+// TODO: getting from the settings
+const topMenuItems = [
+    {key: 'start', label: <Link to={`/dashboard/start`}>Start here</Link>, icon: <RocketIcon/>},
+]
+
 
 export default function DashboardShell() {
     const [opened, setOpened] = useState(false);
@@ -100,14 +108,14 @@ export default function DashboardShell() {
         dispatch({ type: 'notify', name: 'notify', value: {show: notifyFunction, close: destroyNotification}});
         loadInitialData();
     }, []);
-
+/*
     useEffect(() => {
         if (prevProjectList.current && commonFunctions.areObjectArraysEqual(projectList, prevProjectList.current)){
             return;
         }
         prevProjectList.current = projectList;
         formMenu();
-    }, [projectList]);
+    }, [projectList]);*/
 
     useEffect(() => {
         if (currentMenuItems.length == 1){
@@ -153,6 +161,7 @@ export default function DashboardShell() {
             if (response.data.result){
                 dispatch({ type: 'accountData', name: 'accountData', value: response.data.account_data });
                 dispatch({ type: 'projectList', name: 'projectList', value: response.data.projects});
+                setMenuItems(topMenuItems); // TODO: form menu based on settings
             } else {
                 //notify('error', response.data.error || 'Some error occured during this request... please try again.');
                 
@@ -242,6 +251,7 @@ export default function DashboardShell() {
                             <Routes>
                                 <Route path="/" element={<StartPage/>}  />
                                 <Route path="/start" element={<StartPage/>}  />
+                                <Route path="/settings/types" element={<TypeList/>}  />
                                 <Route path="/settings/profile" element={<Profile/>}  />
                                 <Route path="/settings/notifications" element={<NotificationCenter/>}  />
                                 <Route path="/settings" element={<Settings/>}  />

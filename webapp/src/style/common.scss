@@ -15,6 +15,9 @@ html, body {
     font-family: /*'Inter'*/'Noto Sans', sans-serif !important;
     overflow-y: hidden;
 }
+h2, h3 {
+    color: #083067;
+}
 /* Common styles */
 .link-button {
     background-color: #fff;
@@ -73,6 +76,9 @@ html, body {
 .flex-no-shrink {
     flex-shrink: 0;
 }
+.flex-stretch {
+    flex: 1;
+}
 .gap-2 {
     gap: 2px;
 }
@@ -81,6 +87,9 @@ html, body {
 }
 .gap-5 {
     gap: 5px;
+}
+.gap-10 {
+    gap: 10px;
 }
 .align-items-center {
     align-items: center;
@@ -573,10 +582,11 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    padding-top: 16px;
     overflow-y: auto;
     max-height: calc(100% - 80px);
-    padding-bottom: 15px;
+    &.vertical {
+        flex-direction: column;
+    }
 }
 .url-list {
     max-height: 260px;
@@ -1842,4 +1852,40 @@ code {
 }
 .error-text {
     color: #c8c8c8;
+}
+.type-item {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    .name {
+        font-weight: bold;
+        color: #275ab8;
+    }
+    &.selected {
+        border: 1px solid #5d78cf;
+    }
+}
+.control-palette {
+    width: 52px;
+    padding: 5px;
+    background-color: #fefafa;
+    .control-item {
+        padding: 5px;
+        height: 45px;
+        font-size: 25px;
+        color: #fff;
+        background-color: #8cabda;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        margin-bottom: 10px;
+        .name {
+            font-weight: bold;
+            color: #275ab8;
+        }
+    }
 }

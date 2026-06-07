@@ -12,7 +12,7 @@ const dashboardRoute = (
         token: {
             fontFamily: 'Inter',
             'fontSize': 13, 
-            'colorError': '#a6121a', 'borderRadius': 2, 'colorPrimary': '#704ec7'},
+            'colorError': '#a6121a', 'borderRadius': 2, 'colorPrimary': '#0f4596'},
     }}>
         
         <BrowserRouter>

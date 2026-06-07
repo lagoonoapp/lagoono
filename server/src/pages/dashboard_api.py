@@ -48,7 +48,7 @@ class HealthyCheck(Resource):
 class Favicon(Resource):
     def get(self):
         return make_response(send_from_directory(os.path.join(current_app.static_folder, 'images'),
-                          'favicon.ico',mimetype='image/vnd.microsoft.icon'))
+                          'favicon.png',mimetype='image/vnd.microsoft.icon'))
 
 # Folders where
 non_login_folders = ['userpics']

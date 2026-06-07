@@ -31,7 +31,7 @@ export const AuthShell = ()=> {
                 {contextHolder}
                 <Container m="auto" maxW="400px" w100>
                     <div className="auth-box-title" >
-                        <span className="title" style={{color: colorPrimaryBorder}}>{globalVars.companyName}</span>
+                        <span className="title">{globalVars.companyName}</span>
                         <img src="/static/images/logo.png"/>
                     </div>
                     <div className="auth-form-container">
