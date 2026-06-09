@@ -1,21 +1,23 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Button, Col, Form, Input, Row, Splitter, Tabs } from 'antd';
+
 import {
-    DndContext,
-    KeyboardSensor,
-    PointerSensor,
-    useSensor,
-    useSensors,
+  DndContext,
+  PointerSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
 } from '@dnd-kit/core';
-import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
+
 import { ArticleIcon, TextboxIcon, WarningIcon } from '@phosphor-icons/react';
 import axios from 'axios';
 
 import { Loader } from '@src/components/ui/Loader';
 import { Container } from '@src/components/ui/Container';
 import { controls, ControlPalette } from './ControlPalette';
-import { CustomSortableList } from '@src/components/ui/CustomSortableList';
+import { FieldsSortableList } from '@src/components/ui/FieldsSortableList';
 
 
 const renderFieldItem = (field) => (
@@ -34,6 +36,10 @@ const TypeList = ({fields})=> {
     const [listLoading, setListLoading] = useState(false);
     const [itemLoading, setItemLoading] = useState(false);
     const [itemSaving, setItemSaving] = useState(false);
+
+    const [activeDragItem, setActiveDragItem] = useState(null);
+    const [overItemId, setOverItemId] = useState(null);
+
     const [fieldList, setFieldList] = useState(fields || [
         { id: 'field_1', name: 'Field 1', type: 'text' },
         { id: 'field_2', name: 'Field 2', type: 'number' },
@@ -119,123 +125,12 @@ const TypeList = ({fields})=> {
         }
     };
 
-    const sensors = useSensors(
-        useSensor(PointerSensor, {
-            activationConstraint: {
-                distance: 8,
-            },
-        }),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        })
-    );
-
-    const getInsertIndexFromOverId = (overId, items) => {
-        if (!overId) {
-            return null;
-        }
-
-        if (overId === `${dropZonePrefix}-start`) {
-            return 0;
-        }
-
-        if (overId.startsWith(`${dropZonePrefix}-after-`)) {
-            const itemId = overId.replace(`${dropZonePrefix}-after-`, '');
-            const itemIndex = items.findIndex((item) => item.id === itemId);
-
-            if (itemIndex >= 0) {
-                return itemIndex + 1;
-            }
-        }
-
-        const hoveredIndex = items.findIndex((item) => item.id === overId);
-
-        if (hoveredIndex >= 0) {
-            return hoveredIndex;
-        }
-
-        return null;
-    };
-
-    const createFieldFromControl = (control, items) => {
-        const existingCount = items.filter((item) => item.type === control.type).length;
-
-        return {
-            id: `field_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`,
-            name: `${control.label} ${existingCount + 1}`,
-            type: control.type,
-        };
-    };
-
-    const handleDragEnd = useCallback(({ active, over }) => {
-        if (!over) {
-            return;
-        }
-
-        const activeId = String(active.id);
-        const overId = String(over.id);
-        const activeData = active.data.current;
-
-        if (activeData?.source === 'control-palette') {
-            const targetIndex = getInsertIndexFromOverId(overId, fieldList);
-
-            if (targetIndex == null) {
-                return;
-            }
-
-            setFieldList((prevItems) => {
-                const nextItems = [...prevItems];
-                const control = activeData.control || controls.find((item) => `palette-control-${item.type}` === activeId);
-
-                if (!control) {
-                    return prevItems;
-                }
-
-                const newField = createFieldFromControl(control, prevItems);
-                nextItems.splice(Math.max(0, Math.min(targetIndex, nextItems.length)), 0, newField);
-
-                return nextItems;
-            });
-
-            return;
-        }
-
-        if (activeId === overId) {
-            return;
-        }
-
-        const fromIndex = fieldList.findIndex((item) => item.id === activeId);
-
-        if (fromIndex < 0) {
-            return;
-        }
-
-        const targetIndex = getInsertIndexFromOverId(overId, fieldList);
-
-        if (targetIndex == null) {
-            return;
-        }
-
-        setFieldList((prevItems) => {
-            const movedItems = [...prevItems];
-            const [movedItem] = movedItems.splice(fromIndex, 1);
-
-            if (!movedItem) {
-                return prevItems;
-            }
-
-            const adjustedIndex = fromIndex < targetIndex ? targetIndex - 1 : targetIndex;
-            movedItems.splice(Math.max(0, Math.min(adjustedIndex, movedItems.length)), 0, movedItem);
-
-            return movedItems;
-        });
-    }, [fieldList, dropZonePrefix]);
-
     const addNewType = () => {
         const newType = {
             singular_name: `New Type ${types.length + 1}`,
             plural_name: '',
-            description: ''
+            description: '',
+            fields: []
         };
         upsertItemType(newType);
     };
@@ -261,6 +156,66 @@ const TypeList = ({fields})=> {
             type.id === updatedType.id ? { ...type, ...changedValues } : type
         )));
     };
+
+    const handleDragStart = ({ active }) => {
+        setActiveDragItem(active);
+    };
+
+    const handleDragOver = ({ over }) => {
+        setOverItemId(over ? over.id : null);
+    };
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+        activationConstraint: { distance: 8 },
+        }),
+        useSensor(KeyboardSensor, {
+        coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const handleDragEnd = ({ active, over }) => {
+        setActiveDragItem(null);
+        setOverItemId(null);
+        if (!over) return;
+
+        // Case 1: Dropping a new control from the palette into the list
+        if (active.data.current?.source === 'control-palette') {
+        const controlType = active.data.current.control.type;
+        const controlLabel = active.data.current.control.label;
+        
+        const newItem = {
+            id: `field-${Date.now()}`, // Ensure unique string ID
+            type: controlType,
+            title: controlLabel,
+        };
+
+        if (over.id === 'sortable-list-bottom-zone' || over.id === 'sortable-list-container') {
+            setFieldList([...fieldList, newItem]);
+            return;
+        }
+
+        // If over a specific sortable item, insert it at that index
+        const overIndex = fieldList.findIndex((item) => item.id === over.id);
+        
+        if (overIndex !== -1) {
+            const newList = [...fieldList];
+            newList.splice(overIndex, 0, newItem);
+            setFieldList(newList);
+        } else {
+            // Appends to end if dropped on container but not on an item
+            setFieldList([...fieldList, newItem]);
+        }
+        return;
+        }
+
+        // Case 2: Internal list reordering
+        if (active.id !== over.id) {
+            const oldIndex = fieldList.findIndex((item) => item.id === active.id);
+            const newIndex = fieldList.findIndex((item) => item.id === over.id);
+            setFieldList(arrayMove(fieldList, oldIndex, newIndex));
+        }
+  };
     const typeTabs = [
         {
             key: 'info',
@@ -295,24 +250,28 @@ const TypeList = ({fields})=> {
             label: 'Fields',
             icon: <TextboxIcon />,
             children: (
-                <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
                                             <div className="d-flex flex-direction-row flex-stretch gap-10 h-100">
                                                 {selectedType ? (
-                                                    <>
-                                                        <div className="flex-stretch h-100">
-                                                            <CustomSortableList
+                                                    <DndContext 
+                                                        sensors={sensors} 
+                                                        onDragStart={handleDragStart} 
+                                                        onDragOver={handleDragOver}  
+                                                        onDragEnd={handleDragEnd}
+                                                    >
+                                                        <div className='flex-stretch h-100'>
+                                                            <FieldsSortableList
                                                                 listItems={fieldList}
                                                                 renderItem={renderFieldItem}
-                                                                layout="vertical"
+                                                                layout='vertical'
                                                                 updateItemList={setFieldList}
-                                                                dropZonePrefix={dropZonePrefix}
+                                                                overItemId={overItemId}
+                                                                isActivePaletteItem={activeDragItem?.data.current?.source === 'control-palette'}
                                                             />
                                                         </div>
                                                         <ControlPalette />
-                                                    </>
+                                                    </DndContext>
                                                 ) : null}
                                             </div>
-                                        </DndContext>
             )
         },
         {
