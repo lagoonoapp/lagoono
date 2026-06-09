@@ -17,3 +17,6 @@ class ItemType(db.Model, GenericEntity):
     fields = db.Column(JSONB(), nullable=True)
 
     items = db.relationship('Item', back_populates='item_type', lazy='dynamic', cascade='delete')
+
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='item_types')

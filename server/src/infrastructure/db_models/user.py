@@ -50,6 +50,8 @@ class User(UserMixin, db.Model, GenericEntity):
     boardposts = db.relationship('BoardPost', back_populates='user', lazy='dynamic')
     boardcomments = db.relationship('BoardComment', back_populates='user', lazy='dynamic')
 
+    items = db.relationship('Item', back_populates='user', lazy='dynamic', cascade='all,delete')
+    item_types = db.relationship('ItemType', back_populates='user', lazy='dynamic', cascade='all,delete')
 
     signup_data = db.Column(JSONB(), nullable=True) # The data collected during the sign-up process: IP and device info
 

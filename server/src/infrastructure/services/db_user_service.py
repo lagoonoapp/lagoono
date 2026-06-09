@@ -322,10 +322,13 @@ def get_user_item(user_id, item_name, item_id):
         print_traceback(ex)
         return Result(False, error='Could not retrieve the item.')
 
-def save_user_item(user_id, item_name, item_id, item_data):
+fields_prohibited_to_update = ['id', 'user_id', 'created']
+
+def save_user_item(user_id, item_name, item_data):
     if isinstance(user_id, str):
         user_id = uuid.UUID(user_id).hex
-    if isinstance(item_id, str):
+    item_id = get_field_value(item_data, 'id', None)
+    if item_id is not None and isinstance(item_id, str):
         item_id = uuid.UUID(item_id).hex
     item_object = item_map.get(item_name)
     if item_object is None:
@@ -339,11 +342,12 @@ def save_user_item(user_id, item_name, item_id, item_data):
                 return Result(False, error=f'{item_object['name']} not found.')
             item_object.before_update(item_data)
             for key, value in item_data.items():
-                setattr(item_object, key, value)
-                
-                # Check if the field is JSONB and needs to be flagged as modified                
-                if isinstance(getattr(ItemClassName, key).type, JSONB):
-                    flag_modified(item_object, key)
+                if key not in fields_prohibited_to_update:
+                    setattr(item_object, key, value)
+                    
+                    # Check if the field is JSONB and needs to be flagged as modified                
+                    if isinstance(getattr(ItemClassName, key).type, JSONB):
+                        flag_modified(item_object, key)
 
             item_object.updated = datetime.now(timezone.utc) # Always update
         else:

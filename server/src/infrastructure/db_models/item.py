@@ -17,3 +17,6 @@ class Item(db.Model, GenericEntity):
     
     item_type_id = db.Column(UUID(as_uuid=True), db.ForeignKey('item_type.id'))
     item_type = db.relationship('ItemType', back_populates='items')
+
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='items')

@@ -586,6 +586,7 @@ a:hover {
     max-height: calc(100% - 80px);
     &.vertical {
         flex-direction: column;
+        flex-wrap: nowrap;
     }
 }
 .url-list {
@@ -1868,6 +1869,11 @@ code {
         border: 1px solid #5d78cf;
     }
 }
+.sortable-item {
+    .drag-handle {
+        cursor: grab;
+    }
+}
 .control-palette {
     width: 52px;
     padding: 5px;
@@ -1888,4 +1894,16 @@ code {
             color: #275ab8;
         }
     }
+}
+
+.sortable-drop-zone {
+    height: 8px;
+    border-radius: 4px;
+    margin: 4px 0;
+    background-color: transparent;
+    transition: background-color 120ms ease;
+}
+
+.sortable-drop-zone.sortable-drop-zone-over {
+    background-color: #1677ff55;
 }

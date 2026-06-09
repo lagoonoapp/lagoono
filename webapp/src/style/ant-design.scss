@@ -276,3 +276,18 @@ form.no-big-margin {
 .ant-table-cell {
     padding: 2px 2px !important;
 }
+.ant-tabs-tab-btn {
+    display: flex;
+    svg {
+        width: 22px;
+        height: 22px;
+    }
+}
+.h-100 {
+    .ant-tabs-content {
+        height: 100% !important;
+        .ant-tabs-tabpane {
+            height: 100% !important;
+        }
+    }
+}
